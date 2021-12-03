@@ -66,10 +66,12 @@ jobs:
             cd RBS_LoanAccountDetails_v2
             ant -noinput -buildfile build.xml
             mv /root/*.bar ../bars/RBS_LoanAccountDetails_v2_${{ steps.buildnumber.outputs.build_number }}.bar
-
-        
+  
       # Runs a set of commands using the runners shell
       - name: Check jars folder
         run: |
           cd bars
           ls
+          
+      - name: building docker image
+        run: docker build -t sample:v1 -f dockerfile .
