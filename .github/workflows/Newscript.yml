@@ -76,5 +76,4 @@ jobs:
           
       - name: Building Docker image
         run: |
-          cd RBS_AccountBalanceDetails_v1
           docker build -t sample:v1 -f dockerfile .
