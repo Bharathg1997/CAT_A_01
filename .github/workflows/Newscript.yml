@@ -89,5 +89,5 @@ jobs:
           cd bars
           ls
           
-      - name: Displaying Docker image
+      - name: Displaying Docker images
         run: docker images
