@@ -40,49 +40,49 @@ jobs:
             cd RBS_AccountBalanceDetails_v1
             ant -noinput -buildfile build.xml
             mv /root/*.bar ../bars/RBS_AccountBalanceDetails_v1_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /home/bandaru/Bharath/app/bars
-            cd /home/bandaru/Bharath/app/
+            mv *bar /root/bars
+            cd /root
             docker build -t firstimage:v1 -f dockerfile .
       - name: Build RBS_FXRateInquiry_v3 Project
         run: |
             cd RBS_FXRateInquiry_v3
             ant -noinput -buildfile build.xml
             mv /root/*.bar ../bars/RBS_FXRateInquiry_v3_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /home/bandaru/Bharath/app/bars
-            cd /home/bandaru/Bharath/app/
+            mv *bar /root/bars
+            cd /root
             docker build -t secondimage:v1 -f dockerfile1 .
       - name: Build RBS_EnquireBeneficiaryDetails_v1 Project
         run: |
             cd RBS_EnquireBeneficiaryDetails_v1
             ant -noinput -buildfile build.xml
             mv /root/*.bar ../bars/RBS_EnquireBeneficiaryDetails_v1_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /home/bandaru/Bharath/app/bars
-            cd /home/bandaru/Bharath/app/
+            mv *bar /root/bars
+            cd /root
             docker build -t thirdimage:v1 -f dockerfile2 .
       - name: Build RBS_FetchBeneficiaryBanksList_v1 Project
         run: |
             cd RBS_FetchBeneficiaryBanksList_v1
             ant -noinput -buildfile build.xml
             mv /root/*.bar ../bars/RBS_FetchBeneficiaryBanksList_v1_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /home/bandaru/Bharath/app/bars
-            cd /home/bandaru/Bharath/app/
+            mv *bar /root/bars
+            cd /root
             docker build -t fourthimage:v1 -f dockerfile3 .
       - name: Build RBS_FetchFXDealList_v1 Project
         run: |
             cd RBS_FetchFXDealList_v1
             ant -noinput -buildfile build.xml
             mv /root/*.bar ../bars/RBS_FetchFXDealList_v1_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /home/bandaru/Bharath/app/bars
-            cd /home/bandaru/Bharath/app/
+            mv *bar /root/bars
+            cd /root
             docker build -t fifthimage:v1 -f dockerfile4 .
       - name: Build RBS_LoanAccountDetails_v2 Project
         run: |
             cd RBS_LoanAccountDetails_v2
             ant -noinput -buildfile build.xml
             mv /root/*.bar ../bars/RBS_LoanAccountDetails_v2_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /home/bandaru/Bharath/app/bars
-            cd /home/bandaru/Bharath/app/
-            docker build -t sixthimage:v1 -f dockerfile4 .
+            mv *bar /root/bars
+            cd /root
+            docker build -t sixthimage:v1 -f dockerfile5 .
 
       - name: Check bars folder
         run: |
