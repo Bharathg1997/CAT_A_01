@@ -32,7 +32,7 @@ jobs:
             token: ${{secrets.github_token}}  
       - uses: actions/checkout@v2
       
-      - name: Create Jars Folder
+      - name: Create bars Folder
         run: mkdir bars
         
       - name: Build RBS_AccountBalanceDetails_v1 Project
