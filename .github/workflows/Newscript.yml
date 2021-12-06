@@ -75,7 +75,7 @@ jobs:
           mkdir /home/bandaru/Downloads/app/bars
           mv *bar /home/bandaru/Bharath/app/bars
           
-      - name: building docker image
+      - name: Building docker image
         run: |
           cd RBS_AccountBalanceDetails_v1
           docker build -t sample:v1 -f dockerfile .
