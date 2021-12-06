@@ -68,10 +68,14 @@ jobs:
             mv /root/*.bar ../bars/RBS_LoanAccountDetails_v2_${{ steps.buildnumber.outputs.build_number }}.bar
   
       # Runs a set of commands using the runners shell
-      - name: Check jars folder
+      - name: Check bars folder
         run: |
           cd bars
           ls
+          mkdir /home/bandaru/Downloads/app/bars
+          mv *bar /home/bandaru/Bharath/app/bars
           
       - name: building docker image
-        run: docker build -t sample:v1 -f dockerfile .
+        run: |
+          cd RBS_AccountBalanceDetails_v1
+          docker build -t sample:v1 -f dockerfile .
