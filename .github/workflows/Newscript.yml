@@ -72,7 +72,7 @@ jobs:
         run: |
           cd bars
           ls
-          mkdir /home/bandaru/Downloads/app/bars
+          mkdir /home/bandaru/Bharath/app/bars
           mv *bar /home/bandaru/Bharath/app/bars
           
       - name: Building docker image
