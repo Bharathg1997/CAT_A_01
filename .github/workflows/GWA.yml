@@ -36,7 +36,7 @@ jobs:
           rm -r /root/bars/*
           cp *bar /root/bars
       
-      - name: Docker Build Image for repo ${{ github.repository }} of build number ${{ steps.buildnumber.outputs.build_number }}
+      - name: Docker Build Image for Repo ${{ github.repository }} of build number ${{ steps.buildnumber.outputs.build_number }}
         run: |
           docker build -t cat_a_011:v_${{ steps.buildnumber.outputs.build_number }} -f /root/dockerfile .
           rm -r /root/bars/*
