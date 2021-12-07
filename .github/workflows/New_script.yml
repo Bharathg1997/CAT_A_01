@@ -1,93 +1,43 @@
 name: CAT_A_01
-
-
 on:
-  
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
-  
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-
-
+  PROJECTS: RBS_LoanAccountDetails_v2 RBS_FetchFXDealList_v1 RBS_FetchBeneficiaryBanksList_v1 RBS_EnquireBeneficiaryDetails_v1 RBS_FXRateInquiry_v3 RBS_AccountBalanceDetails_v1
 jobs:
-  
   build:
-    
     runs-on: self-hosted
-
-
-    
     steps:
       
-      - name: Generate build number
+      - name: Generate Build Number
         id: buildnumber
         uses: einaregilsson/build-number@v3
         with:
             token: ${{secrets.github_token}}  
       - uses: actions/checkout@v2
-      
-      - name: Create bars Folder
+
+        
+      - name: Create Bars Folder
         run: mkdir bars
         
-      - name: Build RBS_AccountBalanceDetails_v1 Project
-        run: |
-            cd RBS_AccountBalanceDetails_v1
-            ant -noinput -buildfile build.xml
-            mv /root/*.bar ../bars/RBS_AccountBalanceDetails_v1_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /root/bars
-            cd /root
-            docker build -t firstimage:v1 -f dockerfile .
-      - name: Build RBS_FXRateInquiry_v3 Project
-        run: |
-            cd RBS_FXRateInquiry_v3
-            ant -noinput -buildfile build.xml
-            mv /root/*.bar ../bars/RBS_FXRateInquiry_v3_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /root/bars
-            cd /root
-            docker build -t secondimage:v1 -f dockerfile1 .
-      - name: Build RBS_EnquireBeneficiaryDetails_v1 Project
-        run: |
-            cd RBS_EnquireBeneficiaryDetails_v1
-            ant -noinput -buildfile build.xml
-            mv /root/*.bar ../bars/RBS_EnquireBeneficiaryDetails_v1_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /root/bars
-            cd /root
-            docker build -t thirdimage:v1 -f dockerfile2 .
-      - name: Build RBS_FetchBeneficiaryBanksList_v1 Project
-        run: |
-            cd RBS_FetchBeneficiaryBanksList_v1
-            ant -noinput -buildfile build.xml
-            mv /root/*.bar ../bars/RBS_FetchBeneficiaryBanksList_v1_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /root/bars
-            cd /root
-            docker build -t fourthimage:v1 -f dockerfile3 .
-      - name: Build RBS_FetchFXDealList_v1 Project
-        run: |
-            cd RBS_FetchFXDealList_v1
-            ant -noinput -buildfile build.xml
-            mv /root/*.bar ../bars/RBS_FetchFXDealList_v1_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /root/bars
-            cd /root
-            docker build -t fifthimage:v1 -f dockerfile4 .
-      - name: Build RBS_LoanAccountDetails_v2 Project
-        run: |
-            cd RBS_LoanAccountDetails_v2
-            ant -noinput -buildfile build.xml
-            mv /root/*.bar ../bars/RBS_LoanAccountDetails_v2_${{ steps.buildnumber.outputs.build_number }}.bar
-            mv *bar /root/bars
-            cd /root
-            docker build -t sixthimage:v1 -f dockerfile5 .
-
-      - name: Check bars folder
+      - name: Build All Projects One By One
+        run: for f in $PROJECTS; do echo Building $f Application; cd $f ;ant -noinput -buildfile build.xml ;mv /root/*.bar ../bars/$f_${{ steps.buildnumber.outputs.build_number }}.bar; cd ../;done
+          
+      - name: Check Bars Folder Existance
         run: |
           cd bars
-          ls
-          
-      - name: Displaying Docker images
-        run: docker images
+          ls 
+          mkdir /root/bars/dummy
+          rm -r /root/bars/*
+          cp *.bar /root/bars
+      
+      - name: Docker Build Image for repo ${{ github.repository }} of build number ${{ steps.buildnumber.outputs.build_number }}
+        run: |
+          docker build -t cat_a_011:v_${{ steps.buildnumber.outputs.build_number }} -f /root/dockerfile5 .
+          rm -r /root/bars/*
+          docker images
